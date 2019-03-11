@@ -4,6 +4,9 @@ using UnityEngine;
 using Proyecto26;
 using UnityEditor;
 using System;
+using UnityEngine.Events;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class ItemLocation {
@@ -28,18 +31,53 @@ public class AppTransitionItemObject<T>
     public T[] items;
 }
 
-
 public class WebController : MonoBehaviour
 {
+    
     // Start is called before the first frame update
     public Transform Sun;
     public Transform Moon;
 
-    private string itemsRoute = "http://localhost:3000/api/items";
+    public Text username;
+    public InputField password;
+
+    public enum EnvironmentEnum // your custom enumeration
+    {
+        LOCAL,
+        STAGING
+    };
+
+    public EnvironmentEnum Environment = EnvironmentEnum.LOCAL;
+
+    private String baseURL = "";
+
+    void OnLevelWasLoaded() {
+        Debug.Log("On Level Was loaded");
+    }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     void Start()
     {
+        if (!Application.isEditor) {
+            this.Environment = EnvironmentEnum.STAGING;
+        }
+
+
+        if (this.Environment == EnvironmentEnum.LOCAL) {
+            this.baseURL = "http://localhost:3000/api/";
+        }
+
+        if (this.Environment == EnvironmentEnum.STAGING)
+        {
+            this.baseURL = "https://amulet-api.herokuapp.com/api/";
+        }
+
         //string json = "[{\"id\":\"5c72ec27168727249049f1cf\",\"item_name\":\"Sun\",\"desc\":\"Bright!\",\"location\":{ \"lat\":1.5,\"lng\":2.5}},{\"id\":\"5c72ec45168727249049f1d0\",\"item_name\":\"Moon\",\"desc\":\"Have a rabbit\",\"location\":{\"lat\":2.5,\"lng\":3.5}}]";
-        
+        /*
         RestClient.Get(itemsRoute).Then(response => {
             string jsonComplete = "{\"items\": " + response.Text + "}";
             var res = JsonUtility.FromJson<AppTransitionItemObject<AppTransitionItem>>(jsonComplete);
@@ -56,12 +94,21 @@ public class WebController : MonoBehaviour
                 Debug.Log(res.items[0].location.lat);
             }
          });
-
-     }
+         */
+    }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void Login()
+    {
+        RestClient.Post(this.baseURL + "TempUsers/login", "{\"username\": \"" + this.username.text +  "\", \"password\": \"" + this.password.text +  "\"}").Then(response => {
+            SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        }, error => {
+            Debug.Log("Login Error");
+        });
     }
 }
