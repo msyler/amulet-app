@@ -1,8 +1,8 @@
-# Amulet MVP - UI
+# Amulet MVP - APP
 
 ## Overview
 
-Amulet is a geolocalized application with strong focus on traveling people, we want to create a gamification conduct based on on traveling and user commuting. We want to implement a new social network design, based on the user interaction with virtual objects.
+Amulet is a geolocalized application with strong focus on traveling people, we want to create a gamificated conduct-based application for traveling and user commuting. We want to implement a new social network design, based on the user interaction with virtual objects.
 
 ## Objective
 
@@ -22,13 +22,17 @@ the user will be able to pass the owned items to another user near the actual lo
 
 ## Technicalities
 
-This project consists on 3 projects:
+This Application consists on 3 projects:
 
 ### Web - UI Project:
+https://github.com/msyler/amulet-ui<br>
 This is the dashboard or control panel of the game.
 
 ### Web - API Project:
+https://github.com/msyler/amulet-api<br>
 This project will provide all the API's for the Application and UI Project to work.
 
 ### Mobile Application - Unity Project:
+https://github.com/msyler/amulet-app<br>
 This project will provide the application for the final user.
+
