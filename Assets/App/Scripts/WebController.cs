@@ -8,8 +8,11 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+// ITEM STRUCTURES : BEGIN
 [Serializable]
-public class ItemLocation {
+public class ItemLocation
+{
     public float lat;
     public float lng;
 }
@@ -31,6 +34,19 @@ public class AppTransitionItemObject<T>
     public T[] items;
 }
 
+// ITEM STRUCTURES : END
+
+// USER Object
+[Serializable]
+public class UserObject
+{
+    public string id;
+    public string username;
+    public string password;
+}
+
+
+//MAIN WebController Class
 public class WebController : MonoBehaviour
 {
     
@@ -38,21 +54,28 @@ public class WebController : MonoBehaviour
     public Transform Sun;
     public Transform Moon;
 
+    //Form input fields
     public Text username;
     public InputField password;
 
-    public enum EnvironmentEnum // your custom enumeration
+    //Class utilities
+    public string userId;
+    private String baseURL = "";
+
+    //Environment Enum
+    public enum EnvironmentEnum 
     {
         LOCAL,
         STAGING
     };
 
+    //SET ENVIRONMENT (CHANGE for Staging server test)
     public EnvironmentEnum Environment = EnvironmentEnum.LOCAL;
 
-    private String baseURL = "";
-
-    void OnLevelWasLoaded() {
+    void OnLevelWasLoaded()
+    {
         Debug.Log("On Level Was loaded");
+        Debug.Log(this.userId);
     }
 
     void Awake()
@@ -62,12 +85,13 @@ public class WebController : MonoBehaviour
 
     void Start()
     {
-        if (!Application.isEditor) {
+        if (!Application.isEditor)
+        {
             this.Environment = EnvironmentEnum.STAGING;
         }
 
-
-        if (this.Environment == EnvironmentEnum.LOCAL) {
+        if (this.Environment == EnvironmentEnum.LOCAL)
+        {
             this.baseURL = "http://localhost:3000/api/";
         }
 
@@ -103,9 +127,13 @@ public class WebController : MonoBehaviour
         
     }
 
+    //Login on server and get User Id for later usage
     public void Login()
     {
-        RestClient.Post(this.baseURL + "TempUsers/login", "{\"username\": \"" + this.username.text +  "\", \"password\": \"" + this.password.text +  "\"}").Then(response => {
+        RestClient.Post(this.baseURL + "TempUsers/login", "{\"username\": \"" + this.username.text +  "\", \"password\": \"" + this.password.text +  "\"}").Then(response => 
+        {
+            var res = JsonUtility.FromJson<UserObject>(response.Text);
+            this.userId = res.id;
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
         }, error => {
             Debug.Log("Login Error");
