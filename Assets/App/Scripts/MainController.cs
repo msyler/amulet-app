@@ -41,6 +41,7 @@ public class MainController : MonoBehaviour
                 itemList.Add(res.items[i]);
                 Debug.Log(res.items[i].item_name);
                 Transform _slotPrefab = Instantiate(InventSlotPrefab, new Vector3(0,0,0), Quaternion.identity);
+                _slotPrefab.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 Text txt = _slotPrefab.Find("Text").GetComponent<Text>();
                 txt.text = res.items[i].item_name;
                 _slotPrefab.parent = InventSlotPrefabParent;
