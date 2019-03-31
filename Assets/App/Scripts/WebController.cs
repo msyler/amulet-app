@@ -127,4 +127,9 @@ public class WebController : MonoBehaviour
     {
         return this.baseURL + "TempUsers/" + this.userId + "/item-actives";
     }
+
+    public string GetWorldItemsURL()
+    {
+        return this.baseURL + "item-actives";
+    }
 }
