@@ -12,7 +12,7 @@ We want to create an application wich will create value through the combination 
 
 ## Specifications
 
-The mobile application will feature a mal, wich will show the user sorroundings, in the time, the map will show tha items (tridimentional object), wich the user will be able to get close and add them to his inventory.
+The mobile application will feature a map, wich will show the user sorroundings, in the time, the map will show tha items (tridimentional object), wich the user will be able to get close and add them to his inventory.
 
 If the user have an item on his inventory, the user will be able to add tags, text, video or images to the object.
 
